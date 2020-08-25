@@ -1,2 +1,2 @@
 # ALTechTest
-A tech test for a new job
+A program which, when given the name of an artist, will produce the average number of words in their songs.
