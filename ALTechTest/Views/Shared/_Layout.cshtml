@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Artist lyrics search tool">
+    <meta name="author" content="Drew Morgan">
+    <title>@ViewBag.Title</title>
+
+    <link type="text/css" rel="stylesheet" href="@(Url.Content("~/lib/bootstrap/css/bootstrap.min.css"))"/>
+    <link type="text/css" rel="stylesheet" href="@(Url.Content("~/lib/font-awesome/css/all.min.css"))"/>
+    <link type="text/css" rel="stylesheet" href="@(Url.Content("~/content/site.css"))"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="main-title"><i class="fas fa-guitar"></i> Artist Explorer</h1>
+        </div>
+    </div>
+    @RenderBody()
+</div>
+<script type="text/javascript" src="@(Url.Content("~/lib/jquery/jquery.min.js"))"></script>
+<script type="text/javascript" src="@(Url.Content("~/lib/bootstrap/js/bootstrap.min.js"))"></script>
+</body>
+</html>

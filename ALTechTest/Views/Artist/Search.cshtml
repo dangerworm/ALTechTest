@@ -1,0 +1,33 @@
+﻿@model ALTechTest.ViewModels.Artist.ArtistsViewModel
+
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h2>@ViewBag.Title</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <p>Please select the artist you're interested in from the list below.</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        @foreach (var artist in Model.Artists)
+        {
+            <p>
+                <strong>@Html.ActionLink(artist.Name, "Index", "Artist", new { id = artist.Id })</strong>
+                @if (!string.IsNullOrEmpty(artist.Type))
+                {
+                    <span>(@artist.Type)</span>
+                }
+                <br/>
+                <small>@artist.Disambiguation</small>
+            </p>
+        }
+    </div>
+</div>

@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Artist Search";
+}
+
+<div class="row">
+    <div class="offset-4 col-4 text-center push-down">
+        @using (Html.BeginForm("Search", "Artist", null, FormMethod.Post, true, new {@class = "form"}))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.TextBox("query", "", null, new {@class = "form-control", width = "100%", placeholder = "Enter the name of an artist"})
+            </div>
+            <button class="btn btn-light" type="submit">Search</button>
+        }
+    </div>
+</div>

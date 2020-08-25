@@ -1,0 +1,11 @@
+﻿body {
+     background-color: #eeeeee;
+}
+
+h1, h2, h3 {
+    color: darkgreen;
+}
+
+h1.main-title { margin-top: 1em; }
+
+div.push-down { margin-top: 30vh; }
