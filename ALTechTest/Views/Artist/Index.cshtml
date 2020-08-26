@@ -3,14 +3,17 @@
 @{
     ViewData["Title"] = "Artist Details";
 
-    var fontSize = (int)Math.Max(20, Math.Ceiling(Model.Average / 3));
+    var fontSize = (int)Math.Min(Math.Max(20, Math.Ceiling(Model.Average / 4)), 80);
 }
 
 <div class="row">
     <div class="col-12">
-        <h2>@Model.Artist.Name <small>(@Model.Artist.Type)</small></h2>
+        <h2>
+            @Model.Artist.Name <small>(@Model.Artist.Type)</small>
+        </h2>
         <p>
-            This artist has @Model.Works.Count songs, containing a total of @Model.Total.ToString("N0") words. This gives an average of:
+            Lyrics are available for @Model.Works.Count of this artist's songs, and these contain
+            a total of @Model.Total.ToString("N0") words. This gives an average of:
         </p>
     </div>
 </div>
@@ -24,37 +27,62 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-2">
-        <p><strong>Total:</strong><br/> @Model.Total.ToString("N0")</p>
-    </div>
-    <div class="col-2">
-        <p><strong>Average:</strong><br /> @Model.Average.ToString("N2")</p>
-    </div>
-    <div class="col-2">
-        <p><strong>Min:</strong><br /> @Model.Min.ToString("N0")</p>
-    </div>
-    <div class="col-2">
-        <p><strong>Max:</strong><br /> @Model.Max.ToString("N0")</p>
-    </div>
-    <div class="col-2">
-        <p><strong>Variance:</strong><br /> @Model.Variance.ToString("N2")</p>
-    </div>
-    <div class="col-2">
-        <p><strong>Std. Deviation:</strong><br /> @Model.StandardDeviation.ToString("N2")</p>
+    <div class="col-12">
+        <h3>Artist Lyrics Stats</h3>
     </div>
 </div>
-
-
 <div class="row">
-    <div class="col-12">
+    <div class="col-md-2">
+        <p>
+            <strong>Total</strong><br/>
+            @Model.Total.ToString("N0")
+        </p>
+    </div>
+    <div class="col-md-2">
+        <p>
+            <strong>Average</strong><br/>
+            @Model.Average.ToString("N2")
+        </p>
+    </div>
+    <div class="col-md-2">
+        <p>
+            <strong>Minimum</strong><br/>
+            @Model.Min.ToString("N0")
+        </p>
+    </div>
+    <div class="col-md-2">
+        <p>
+            <strong>Maximum</strong><br/>
+            @Model.Max.ToString("N0")
+        </p>
+    </div>
+    <div class="col-md-2">
+        <p>
+            <strong>Variance</strong><br/>
+            @Model.Variance.ToString("N2")
+        </p>
+    </div>
+    <div class="col-md-2">
+        <p>
+            <strong>Std. Deviation</strong><br/>
+            @Model.StandardDeviation.ToString("N2")
+        </p>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
         <h3>Works</h3>
         @foreach (var workItem in Model.Works)
         {
             var work = workItem.Value;
 
             <p>
-                <strong>@work.Title</strong>: @work.NumberOfWords.ToString("N0") words<br />
+                <strong>@work.Title</strong>: @work.NumberOfWords.ToString("N0") words<br/>
                 <small>@work.Disambiguation</small>
+            </p>
+            <p style="color: purple;">
+                @Html.Raw(work.Lyrics.Substring(0, Math.Min(work.Lyrics.Length, 128)).Replace(Environment.NewLine, "<br />"))...
             </p>
         }
     </div>

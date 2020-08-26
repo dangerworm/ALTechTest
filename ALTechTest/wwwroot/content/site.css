@@ -1,11 +1,66 @@
-﻿body {
-     background-color: #eeeeee;
+﻿:root {
+    --dark-color: #01233f;
+    --primary: #e78200;
+    --secondary-darker: #894e00;
+    --secondary-lighter: #f2af58;
 }
+
+a, a:active a:focus, a:visited {
+     color: var(--secondary-darker);
+}
+
+a:hover {
+    color: var(--secondary-lighter);
+    text-decoration: underline;
+}
+
+body { background-color: #eeeeee; }
 
 h1, h2, h3 {
-    color: darkgreen;
+    color: var(--dark);
+    font-family: 'Fjalla One', Arial, sans-serif;
 }
 
-h1.main-title { margin-top: 1em; }
+span.main-title {
+    color: var(--primary);
+    font-family: 'Fjalla One', Arial, sans-serif;
+}
 
-div.push-down { margin-top: 30vh; }
+div.header { margin: 2em 0.25em; }
+
+img.main-logo {
+    height: 60pt;
+    margin-top: -6px;
+    vertical-align: middle;
+}
+
+a:hover>img.main-logo {
+    color: var(--secondary-lighter);
+    text-decoration: none;
+}
+
+
+span.main-title {
+    font-size: 60pt;
+    margin: 5em 0.25em 2em;
+    vertical-align: middle;
+}
+
+div.push-down { margin-top: 15%; }
+
+@media (max-width: 720px) {
+    img.main-logo {
+        height: 30pt;
+        vertical-align: middle;
+    }
+
+    span.main-title {
+        font-size: 30pt;
+        margin: 2em 0.25em;
+        vertical-align: middle;
+    }
+}
+
+@media (min-width: 576px) {
+    .jumbotron { padding: 2rem 2rem; }
+}

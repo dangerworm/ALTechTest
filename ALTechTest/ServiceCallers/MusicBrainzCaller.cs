@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ALTechTest.Classes.MusicBrainz;
 using ALTechTest.Interfaces;
@@ -9,6 +10,8 @@ namespace ALTechTest.ServiceCallers
 {
     public class MusicBrainzCaller : MusicBrainzCallerBase, IMusicBrainzCaller
     {
+        private const int ArtistSearchScoreThreshold = 50;
+
         public async Task<IEnumerable<Artist>> GetArtists(string query)
         {
             var parameters = new[] {JsonFormat, $"query={query}"};
@@ -19,12 +22,12 @@ namespace ALTechTest.ServiceCallers
             var apiResponseString = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<ArtistQueryResult>(apiResponseString);
 
-            return result.artists;
+            return result.artists.Where(x => x.score > ArtistSearchScoreThreshold);
         }
 
         public async Task<Artist> GetArtistById(Guid musicBrainzId)
         {
-            var requestUri = $"{BaseAddress}{ArtistEntityString}/{musicBrainzId}?{JsonFormat}";
+            var requestUri = $"{BaseAddress}{ArtistEntityString}/{musicBrainzId}?{ArtistIncludes}&{Limit1000}&{JsonFormat}";
 
             using var httpClient = GetHttpClient();
             using var response = await httpClient.GetAsync(requestUri);

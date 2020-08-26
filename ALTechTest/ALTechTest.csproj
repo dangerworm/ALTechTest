@@ -13,8 +13,4 @@
     <None Include="wwwroot\content\site.css" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Classes\LyricsOvh\" />
-  </ItemGroup>
-
 </Project>

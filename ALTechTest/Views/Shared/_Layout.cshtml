@@ -8,15 +8,18 @@
     <meta name="author" content="Drew Morgan">
     <title>@ViewBag.Title</title>
 
-    <link type="text/css" rel="stylesheet" href="@(Url.Content("~/lib/bootstrap/css/bootstrap.min.css"))"/>
-    <link type="text/css" rel="stylesheet" href="@(Url.Content("~/lib/font-awesome/css/all.min.css"))"/>
-    <link type="text/css" rel="stylesheet" href="@(Url.Content("~/content/site.css"))"/>
+    <link href="@(Url.Content("~/lib/bootstrap/css/bootstrap.min.css"))" rel="stylesheet" type="text/css"/>
+    <link href="@(Url.Content("~/lib/font-awesome/css/all.min.css"))" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet" type="text/css"/>
+    <link href="@(Url.Content("~/content/site.css"))" rel="stylesheet" type="text/css"/>
+
 </head>
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-12 text-center">
-            <h1 class="main-title"><i class="fas fa-guitar"></i> Artist Explorer</h1>
+        <div class="col-12 header text-center">
+            <a href="@Url.Action("Index", "Home")"><img class="main-logo" src="@Url.Content("~/content/al-music-stats-logo-300-300.png")" alt="AL Music Stats Logo" /></a>
+            <span class="main-title"> AL Music Stats</span>
         </div>
     </div>
     @RenderBody()

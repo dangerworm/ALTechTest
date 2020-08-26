@@ -4,7 +4,9 @@ namespace ALTechTest.Classes.MusicBrainz
 {
     public class Area
     {
+        public string disambiguation { get; set; }
         public Guid id { get; set; }
+        public string[] iso31661codes { get; set; }
         public LifeSpan lifespan { get; set; }
         public string name { get; set; }
         public string sortname { get; set; }

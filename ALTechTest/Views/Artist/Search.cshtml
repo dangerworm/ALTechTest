@@ -20,7 +20,7 @@
         @foreach (var artist in Model.Artists)
         {
             <p>
-                <strong>@Html.ActionLink(artist.Name, "Index", "Artist", new { id = artist.Id })</strong>
+                <strong>@Html.ActionLink(artist.Name, "Index", "Artist", new {id = artist.Id})</strong>
                 @if (!string.IsNullOrEmpty(artist.Type))
                 {
                     <span>(@artist.Type)</span>

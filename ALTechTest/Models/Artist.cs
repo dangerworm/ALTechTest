@@ -12,9 +12,10 @@ namespace ALTechTest.Models
             Disambiguation = artist.disambiguation;
         }
 
+        public string Disambiguation { get; set; }
+
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-        public string Disambiguation { get; set; }
     }
 }

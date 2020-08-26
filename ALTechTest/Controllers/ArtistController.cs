@@ -2,8 +2,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using ALTechTest.Classes.MusicBrainz;
 using ALTechTest.Helpers;
 using ALTechTest.Interfaces;
 using ALTechTest.ViewModels.Artist;
@@ -13,8 +13,8 @@ namespace ALTechTest.Controllers
 {
     public class ArtistController : Controller
     {
-        private readonly IMusicBrainzCaller _musicBrainzCaller;
         private readonly ILyricsOvhCaller _lyricsOvhCaller;
+        private readonly IMusicBrainzCaller _musicBrainzCaller;
 
         public ArtistController(IMusicBrainzCaller musicBrainzCaller, ILyricsOvhCaller lyricsOvhCaller)
         {
@@ -23,6 +23,21 @@ namespace ALTechTest.Controllers
 
             _musicBrainzCaller = musicBrainzCaller;
             _lyricsOvhCaller = lyricsOvhCaller;
+        }
+
+        private async Task<ConcurrentDictionary<Guid, string>> GetLyrics(Artist artist, IEnumerable<Work> works)
+        {
+            var lyricsDictionary = new ConcurrentDictionary<Guid, string>();
+
+            var tasks = works.Select(async work =>
+            {
+                var lyrics = await _lyricsOvhCaller.GetLyrics(artist.name, work.title);
+                lyricsDictionary.TryAdd(work.id, lyrics);
+            });
+
+            await Task.WhenAll(tasks);
+
+            return lyricsDictionary;
         }
 
         [HttpGet]
@@ -39,24 +54,13 @@ namespace ALTechTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Search(string query)
         {
-            var artists = await _musicBrainzCaller.GetArtists(query);
+            if (string.IsNullOrWhiteSpace(query))
+                return RedirectToAction("Index", "Home");
+
+            var artists = (await _musicBrainzCaller.GetArtists(query)).ToArray();
+            if (artists.Length == 1) return RedirectToAction("Index", new {artists.First().id});
 
             return View(new ArtistsViewModel(artists));
-        }
-
-        private async Task<ConcurrentDictionary<Guid, string>> GetLyrics(Classes.MusicBrainz.Artist artist, Classes.MusicBrainz.Work[] works)
-        {
-            var lyricsDictionary = new ConcurrentDictionary<Guid, string>();
-
-            var tasks = works.Select(async work =>
-            {
-                var lyrics = await _lyricsOvhCaller.GetLyrics(artist.name, work.title);
-                lyricsDictionary.TryAdd(work.id, lyrics);
-            });
-
-            await Task.WhenAll(tasks);
-
-            return lyricsDictionary;
         }
     }
 }

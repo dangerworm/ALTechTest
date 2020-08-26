@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using ALTechTest.Classes.LyricsOvh;
 using ALTechTest.Interfaces;
+using Newtonsoft.Json;
 
 namespace ALTechTest.ServiceCallers
 {
@@ -11,9 +13,10 @@ namespace ALTechTest.ServiceCallers
 
             using var httpClient = GetHttpClient();
             using var response = await httpClient.GetAsync(requestUri);
-            var result = await response.Content.ReadAsStringAsync();
+            var lyricsResponseString = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<LyricsQueryResult>(lyricsResponseString);
 
-            return result;
+            return result.lyrics;
         }
     }
 }
