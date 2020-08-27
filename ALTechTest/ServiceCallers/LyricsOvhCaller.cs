@@ -14,9 +14,16 @@ namespace ALTechTest.ServiceCallers
             using var httpClient = GetHttpClient();
             using var response = await httpClient.GetAsync(requestUri);
             var lyricsResponseString = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<LyricsQueryResult>(lyricsResponseString);
 
-            return result.lyrics;
+            try
+            {
+                var result = JsonConvert.DeserializeObject<LyricsQueryResult>(lyricsResponseString);
+                return result.lyrics;
+            }
+            catch (JsonReaderException exception)
+            {
+                return string.Empty;
+            }
         }
     }
 }

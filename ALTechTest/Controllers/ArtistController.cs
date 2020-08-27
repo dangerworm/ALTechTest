@@ -44,10 +44,17 @@ namespace ALTechTest.Controllers
         public async Task<IActionResult> Index(Guid id)
         {
             var artist = await _musicBrainzCaller.GetArtistById(id);
-            var works = (await _musicBrainzCaller.GetWorksByArtistId(id)).ToArray();
+            var recordingsTask = _musicBrainzCaller.GetRecordingsByArtistId(id);
+            var worksTask = _musicBrainzCaller.GetWorksByArtistId(id);
+
+            Task.WaitAll(recordingsTask, worksTask);
+
+            var recordings = recordingsTask.Result.ToArray();
+            var works = worksTask.Result.ToArray();
+
             var lyrics = await GetLyrics(artist, works);
 
-            return View(new ArtistViewModel(artist, works, lyrics));
+            return View(new ArtistViewModel(artist, recordings, works, lyrics));
         }
 
         [HttpPost]

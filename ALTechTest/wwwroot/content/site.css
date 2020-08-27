@@ -5,9 +5,7 @@
     --secondary-lighter: #f2af58;
 }
 
-a, a:active a:focus, a:visited {
-     color: var(--secondary-darker);
-}
+a, a:active a:focus, a:visited { color: var(--secondary-darker); }
 
 a:hover {
     color: var(--secondary-lighter);
@@ -34,7 +32,7 @@ img.main-logo {
     vertical-align: middle;
 }
 
-a:hover>img.main-logo {
+a:hover > img.main-logo {
     color: var(--secondary-lighter);
     text-decoration: none;
 }
@@ -48,8 +46,10 @@ span.main-title {
 
 div.push-down { margin-top: 15%; }
 
+p.lyrics-preview { color: purple; }
+
 @media (max-width: 720px) {
-    img.main-logo {
+    img .main-logo {
         height: 30pt;
         vertical-align: middle;
     }

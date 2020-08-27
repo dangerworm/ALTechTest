@@ -10,6 +10,7 @@ namespace ALTechTest.Classes.MusicBrainz
         public string[] iswcs { get; set; }
         public string language { get; set; }
         public string[] languages { get; set; }
+        public Relationship[] relations { get; set; }
         public string title { get; set; }
         public string type { get; set; }
         public Guid typeid { get; set; }

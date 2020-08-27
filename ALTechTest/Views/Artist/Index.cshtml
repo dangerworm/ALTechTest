@@ -13,7 +13,9 @@
         </h2>
         <p>
             Lyrics are available for @Model.Works.Count of this artist's songs, and these contain
-            a total of @Model.Total.ToString("N0") words. This gives an average of:
+            a total of @Model.Total.ToString("N0") words. The average stats are:
+
+
         </p>
     </div>
 </div>
@@ -21,7 +23,11 @@
     <div class="col-12">
         <div class="jumbotron">
             <h1 class="text-center" style="font-size: @(fontSize)pt">
-                @Model.Average.ToString("N0") words per song
+                @Model.Average.ToString("N0") words per song<br/>
+                @if (Model.WordsPerSecond.HasValue)
+                {
+                    <text>@Model.WordsPerSecond.Value.ToString("N1") words per second</text>
+                }
             </h1>
         </div>
     </div>
@@ -78,11 +84,25 @@
             var work = workItem.Value;
 
             <p>
-                <strong>@work.Title</strong>: @work.NumberOfWords.ToString("N0") words<br/>
-                <small>@work.Disambiguation</small>
+                <strong>@work.Title</strong>
             </p>
-            <p style="color: purple;">
-                @Html.Raw(work.Lyrics.Substring(0, Math.Min(work.Lyrics.Length, 128)).Replace(Environment.NewLine, "<br />"))...
+
+            @if (work.AverageDuration.HasValue && work.WordsPerSecond.HasValue)
+            {
+                <p>
+                    <small>
+                        @work.NumberOfWords.ToString("N0") words over an average of
+                        @work.AverageDuration.Value.TotalMinutes.ToString("N0") minutes and
+                        @work.AverageDuration.Value.Seconds.ToString("N0") seconds<br/>
+                        <strong>@work.WordsPerSecond.Value.ToString("N1") words per second</strong>
+                    </small>
+                </p>
+            }
+
+            <p class="lyrics-preview">
+                <small>
+                    @Html.Raw(work.Lyrics.Substring(0, Math.Min(work.Lyrics.Length, 128)).Replace(Environment.NewLine, "<br />"))...
+                </small>
             </p>
         }
     </div>

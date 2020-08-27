@@ -10,6 +10,7 @@ namespace ALTechTest.Interfaces
         public Task<Artist> GetArtistById(Guid musicBrainzId);
         public Task<IEnumerable<Artist>> GetArtists(string query);
 
+        public Task<IEnumerable<Recording>> GetRecordingsByArtistId(Guid artistMusicBrainzId);
         public Task<IEnumerable<Work>> GetWorksByArtistId(Guid artistMusicBrainzId);
     }
 }
