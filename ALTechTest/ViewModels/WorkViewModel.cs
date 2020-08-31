@@ -19,11 +19,9 @@ namespace ALTechTest.ViewModels
 
         public TimeSpan? AverageDuration { get; set; }
         public string Disambiguation { get; set; }
-
         public Guid Id { get; set; }
         public string Lyrics { get; set; }
         public int NumberOfWords { get; set; }
-
         public IEnumerable<RelationshipViewModel> Relationships { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }

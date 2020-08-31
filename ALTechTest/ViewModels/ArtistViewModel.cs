@@ -53,6 +53,22 @@ namespace ALTechTest.ViewModels
             }
         }
 
+        private void RemoveWorksWithTooFewWords(int threshold)
+        {
+            var workIdsWhereNotLongEnough = Works.Where(x => x.Value.NumberOfWords <= threshold);
+            foreach (var workId in workIdsWhereNotLongEnough) Works.Remove(workId);
+        }
+
+        #region LyricData
+
+        public int Total { get; set; }
+        public double Average { get; set; }
+        public double? WordsPerSecond { get; set; }
+        public int Min { get; set; }
+        public int Max { get; set; }
+        public double Variance { get; set; }
+        public double StandardDeviation { get; set; }
+
         private void ProcessStats()
         {
             if (!Works.Values.Any())
@@ -76,22 +92,6 @@ namespace ALTechTest.ViewModels
             Variance = Works.Values.Average(x => Math.Pow(x.NumberOfWords - Average, 2));
             StandardDeviation = Math.Sqrt(Variance);
         }
-
-        private void RemoveWorksWithTooFewWords(int threshold)
-        {
-            var workIdsWhereNotLongEnough = Works.Where(x => x.Value.NumberOfWords <= threshold);
-            foreach (var workId in workIdsWhereNotLongEnough) Works.Remove(workId);
-        }
-
-        #region LyricData
-
-        public int Total { get; set; }
-        public double Average { get; set; }
-        public double? WordsPerSecond { get; set; }
-        public int Min { get; set; }
-        public int Max { get; set; }
-        public double Variance { get; set; }
-        public double StandardDeviation { get; set; }
 
         #endregion LyricData
     }

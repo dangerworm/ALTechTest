@@ -7,10 +7,6 @@ namespace ALTechTest.DataTransferObjects
 {
     public class RecordingDto
     {
-        public RecordingDto()
-        {
-        }
-
         public RecordingDto(Recording recording)
         {
             Id = recording.id;
@@ -24,10 +20,8 @@ namespace ALTechTest.DataTransferObjects
         }
 
         public string Disambiguation { get; set; }
-
         public Guid Id { get; set; }
         public int? Length { get; set; }
-
         public IEnumerable<RelationshipDto> Relationships { get; set; }
         public string Title { get; set; }
     }

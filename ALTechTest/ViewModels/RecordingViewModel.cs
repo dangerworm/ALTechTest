@@ -7,10 +7,6 @@ namespace ALTechTest.ViewModels
 {
     public class RecordingViewModel
     {
-        public RecordingViewModel()
-        {
-        }
-
         public RecordingViewModel(RecordingDto recording)
         {
             Id = recording.Id;
@@ -22,10 +18,8 @@ namespace ALTechTest.ViewModels
         }
 
         public string Disambiguation { get; set; }
-
         public Guid Id { get; set; }
         public int? Length { get; set; }
-
         public IEnumerable<RelationshipViewModel> Relationships { get; set; }
         public string Title { get; set; }
     }
