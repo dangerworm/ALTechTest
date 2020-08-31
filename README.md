@@ -1,5 +1,5 @@
 # AL Tech Test
-This is a web application which, when given the name of an artist, will produce the average number of words in their songs.
+This is a web application which, when given the name of an artist, will calculate and display statistics about the lyrics in the artist's works.
 
 The code base forms the basis of a submission for a job interview.
 
