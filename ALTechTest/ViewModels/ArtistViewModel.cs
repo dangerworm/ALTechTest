@@ -26,7 +26,7 @@ namespace ALTechTest.ViewModels
             foreach (var lyrics in lyricsDictionary)
                 Works[lyrics.Key].Lyrics = lyrics.Value;
 
-            ProcessLyricsData();
+            ProcessLyricsAndRecordingData();
             RemoveWorksWithTooFewWords(ShortWorkThreshold);
             ProcessStats();
         }
@@ -38,7 +38,7 @@ namespace ALTechTest.ViewModels
         public IDictionary<Guid, IEnumerable<RecordingDto>> WorkRecordings { get; set; }
         public IDictionary<Guid, WorkViewModel> Works { get; set; }
 
-        private void ProcessLyricsData()
+        private void ProcessLyricsAndRecordingData()
         {
             var parallelLoopResult = Parallel.ForEach(Works,
                 work =>
