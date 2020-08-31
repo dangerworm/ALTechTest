@@ -13,7 +13,7 @@ To run the app:
 
 Once the app has loaded:
 * Type in the name of a performer or artist.
-** If it is unclear exactly which artist you mean, the app will ask you to choose.
+    * If it is unclear exactly which artist you mean, the app will ask you to choose.
 * The app will then crunch through lyrics data and produce a page with stats about the artist's work.
 * If you wish, you can search for the artist's work on Spotify using the button provided.
 * To return to the search page, click the logo at the top.
