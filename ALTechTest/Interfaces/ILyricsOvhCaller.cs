@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using ALTechTest.DataTransferObjects;
+﻿using ALTechTest.DataTransferObjects;
+using System.Threading.Tasks;
 
 namespace ALTechTest.Interfaces
 {

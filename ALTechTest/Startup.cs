@@ -34,6 +34,7 @@ namespace ALTechTest
         {
             services.AddControllersWithViews();
 
+            services.AddSingleton<IServiceCaller, ServiceCaller>();
             services.AddSingleton<IMusicBrainzCaller, MusicBrainzCaller>();
             services.AddSingleton<ILyricsOvhCaller, LyricsOvhCaller>();
         }

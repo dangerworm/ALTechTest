@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ALTechTest.DataTransferObjects;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ALTechTest.DataTransferObjects;
 
 namespace ALTechTest.Interfaces
 {

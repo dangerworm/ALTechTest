@@ -7,6 +7,10 @@ namespace ALTechTest.DataTransferObjects
 {
     public class WorkDto
     {
+        public WorkDto()
+        {
+        }
+
         public WorkDto(Work work)
         {
             Id = work.id;

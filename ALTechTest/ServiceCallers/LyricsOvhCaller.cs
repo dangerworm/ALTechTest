@@ -1,23 +1,33 @@
-﻿using System.Threading.Tasks;
-using ALTechTest.DataTransferObjects;
+﻿using ALTechTest.DataTransferObjects;
 using ALTechTest.Interfaces;
 using ALTechTest.ParsingObjects.LyricsOvh;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
+using System.Web;
+using ALTechTest.Helpers;
 
 namespace ALTechTest.ServiceCallers
 {
-    public class LyricsOvhCaller : LyricsOvhCallerBase, ILyricsOvhCaller
+    public class LyricsOvhCaller : ILyricsOvhCaller
     {
+        private const string BaseAddress = "https://api.lyrics.ovh/v1/";
+
+        private readonly IServiceCaller _serviceCaller;
+
+        public LyricsOvhCaller(IServiceCaller serviceCaller)
+        {
+            Verify.NotNull(serviceCaller, nameof(serviceCaller));
+            
+            _serviceCaller = serviceCaller;
+        }
+
         public async Task<LyricsDto> GetLyrics(string artist, string title)
         {
-            var requestUri = $"{BaseAddress}/{artist}/{title}";
-
-            using var httpClient = GetHttpClient();
-            using var response = await httpClient.GetAsync(requestUri);
-            var lyricsResponseString = await response.Content.ReadAsStringAsync();
-
             try
             {
+                var requestUri = $"{BaseAddress}{artist}/{title}";
+                var lyricsResponseString = await _serviceCaller.GetApiResponseString(requestUri);
+
                 var result = JsonConvert.DeserializeObject<LyricsQueryResult>(lyricsResponseString);
                 return new LyricsDto(result);
             }

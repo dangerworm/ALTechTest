@@ -5,6 +5,10 @@ namespace ALTechTest.DataTransferObjects
 {
     public class ArtistDto
     {
+        public ArtistDto()
+        {
+        }
+
         public ArtistDto(Artist artist)
         {
             Id = artist.id;
