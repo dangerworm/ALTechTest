@@ -1,5 +1,6 @@
 ﻿using ALTechTest.Classes.MusicBrainz;
 using ALTechTest.DataTransferObjects;
+using ALTechTest.Helpers;
 using ALTechTest.Interfaces;
 using ALTechTest.ParsingObjects.MusicBrainz;
 using Newtonsoft.Json;
@@ -8,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using ALTechTest.Helpers;
 
 namespace ALTechTest.ServiceCallers
 {
@@ -66,7 +66,9 @@ namespace ALTechTest.ServiceCallers
                 var apiResponseString = await _serviceCaller.GetApiResponseString(requestUri);
                 var artist = JsonConvert.DeserializeObject<Artist>(apiResponseString);
 
-                return new ArtistDto(artist);
+                return string.IsNullOrWhiteSpace(artist.error)
+                    ? new ArtistDto(artist)
+                    : null;
             }
             catch (JsonReaderException)
             {
@@ -88,7 +90,9 @@ namespace ALTechTest.ServiceCallers
                 var apiResponseString = await _serviceCaller.GetApiResponseString(requestUri);
                 var result = JsonConvert.DeserializeObject<WorkQueryResult>(apiResponseString);
 
-                return result.works.Select(x => new WorkDto(x));
+                return string.IsNullOrWhiteSpace(result.error)
+                    ? result.works.Select(x => new WorkDto(x))
+                    : Enumerable.Empty<WorkDto>();
             }
             catch (JsonReaderException)
             {
@@ -109,7 +113,9 @@ namespace ALTechTest.ServiceCallers
                 var apiResponseString = await _serviceCaller.GetApiResponseString(requestUri);
                 var result = JsonConvert.DeserializeObject<RecordingQueryResult>(apiResponseString);
 
-                return result.recordings.Select(x => new RecordingDto(x));
+                return string.IsNullOrWhiteSpace(result.error)
+                    ? result.recordings.Select(x => new RecordingDto(x))
+                    : Enumerable.Empty<RecordingDto>();
             }
             catch (JsonReaderException)
             {

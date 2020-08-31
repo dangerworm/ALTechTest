@@ -12,8 +12,10 @@ namespace ALTechTest.ParsingObjects.MusicBrainz
         public string disambiguation { get; set; }
         public Area end_area { get; set; }
         public Area endarea { get; set; }
+        public string error { get; set; }
         public string gender { get; set; }
         public Guid genderid { get; set; }
+        public string help { get; set; }
         public Guid id { get; set; }
         public string[] ipis { get; set; }
         public string[] isnis { get; set; }
