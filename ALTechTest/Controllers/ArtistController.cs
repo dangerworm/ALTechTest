@@ -3,10 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ALTechTest.Classes.MusicBrainz;
+using ALTechTest.DataTransferObjects;
 using ALTechTest.Helpers;
 using ALTechTest.Interfaces;
-using ALTechTest.ViewModels.Artist;
+using ALTechTest.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ALTechTest.Controllers
@@ -25,14 +25,14 @@ namespace ALTechTest.Controllers
             _lyricsOvhCaller = lyricsOvhCaller;
         }
 
-        private async Task<ConcurrentDictionary<Guid, string>> GetLyrics(Artist artist, IEnumerable<Work> works)
+        private async Task<ConcurrentDictionary<Guid, string>> GetLyrics(ArtistDto artist, IEnumerable<WorkDto> works)
         {
             var lyricsDictionary = new ConcurrentDictionary<Guid, string>();
 
             var tasks = works.Select(async work =>
             {
-                var lyrics = await _lyricsOvhCaller.GetLyrics(artist.name, work.title);
-                lyricsDictionary.TryAdd(work.id, lyrics);
+                var lyricsResult = await _lyricsOvhCaller.GetLyrics(artist.Name, work.Title);
+                lyricsDictionary.TryAdd(work.Id, lyricsResult?.Lyrics ?? "");
             });
 
             await Task.WhenAll(tasks);
@@ -65,7 +65,7 @@ namespace ALTechTest.Controllers
                 return RedirectToAction("Index", "Home");
 
             var artists = (await _musicBrainzCaller.GetArtists(query)).ToArray();
-            if (artists.Length == 1) return RedirectToAction("Index", new {artists.First().id});
+            if (artists.Length == 1) return RedirectToAction("Index", new {artists.First().Id});
 
             return View(new ArtistsViewModel(artists));
         }

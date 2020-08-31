@@ -1,4 +1,4 @@
-﻿namespace ALTechTest.Classes.MusicBrainz
+﻿namespace ALTechTest.ParsingObjects.MusicBrainz
 {
     public class AttributeIds
     {

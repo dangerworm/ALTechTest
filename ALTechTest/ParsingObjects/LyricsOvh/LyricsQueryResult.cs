@@ -1,4 +1,4 @@
-﻿namespace ALTechTest.Classes.LyricsOvh
+﻿namespace ALTechTest.ParsingObjects.LyricsOvh
 {
     public class LyricsQueryResult
     {

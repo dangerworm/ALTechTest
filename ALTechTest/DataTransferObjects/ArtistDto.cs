@@ -1,10 +1,11 @@
 ﻿using System;
+using ALTechTest.ParsingObjects.MusicBrainz;
 
-namespace ALTechTest.Models
+namespace ALTechTest.DataTransferObjects
 {
-    public class Artist
+    public class ArtistDto
     {
-        public Artist(Classes.MusicBrainz.Artist artist)
+        public ArtistDto(Artist artist)
         {
             Id = artist.id;
             Name = artist.name;

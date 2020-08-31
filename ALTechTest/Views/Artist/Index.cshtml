@@ -1,109 +1,147 @@
-﻿@model ALTechTest.ViewModels.Artist.ArtistViewModel
+﻿@model ArtistViewModel
 
 @{
     ViewData["Title"] = "Artist Details";
 
-    var fontSize = (int)Math.Min(Math.Max(20, Math.Ceiling(Model.Average / 4)), 80);
+    var fontSize = (int)Math.Min(Math.Max(20, Math.Ceiling(Model.Average / 4)), 60);
 }
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-sm-6">
         <h2>
-            @Model.Artist.Name <small>(@Model.Artist.Type)</small>
+            @Model.Artist.Name
+            @if (!string.IsNullOrWhiteSpace(Model.Artist.Type))
+            {
+                <small>(@Model.Artist.Type)</small>
+            }
         </h2>
-        <p>
-            Lyrics are available for @Model.Works.Count of this artist's songs, and these contain
-            a total of @Model.Total.ToString("N0") words. The average stats are:
-
-
-        </p>
+    </div>
+    <div class="col-sm-6">
+        <a class="btn btn-lg btn-light float-right" href="https://open.spotify.com/search/@Model.Artist.Name.Replace(" ", "%20").ToLower()">
+            <span class="fab fa-spotify"></span> Find on Spotify
+        </a>
     </div>
 </div>
-<div class="row">
-    <div class="col-12">
-        <div class="jumbotron">
-            <h1 class="text-center" style="font-size: @(fontSize)pt">
-                @Model.Average.ToString("N0") words per song<br/>
-                @if (Model.WordsPerSecond.HasValue)
-                {
-                    <text>@Model.WordsPerSecond.Value.ToString("N1") words per second</text>
-                }
-            </h1>
+@if (Model.Works.Count == 0)
+{
+    <div class="row">
+        <div class="col-12">
+            <p>
+                Unfortunately we couldn't find any lyrics, so no stats are available.
+                @Html.ActionLink("Click here", "Index", "Home") to start again.
+            </p>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <h3>Artist Lyrics Stats</h3>
+}
+else
+{
+    <div class="row">
+        <div class="col-12">
+            <p>
+                Lyrics are available for @Model.Works.Count of this artist's songs, and these contain
+                a total of @Model.Total.ToString("N0") words. On average, there are:
+            </p>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-2">
-        <p>
-            <strong>Total</strong><br/>
-            @Model.Total.ToString("N0")
-        </p>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron">
+                <h1 class="text-center" style="font-size: @(fontSize)pt">
+                    @Model.Average.ToString("N0") words per song<br />
+                    @if (Model.WordsPerSecond.HasValue)
+                    {
+                        <text>@Model.WordsPerSecond.Value.ToString("N1") words per second</text>
+                    }
+                </h1>
+            </div>
+        </div>
     </div>
-    <div class="col-md-2">
-        <p>
-            <strong>Average</strong><br/>
-            @Model.Average.ToString("N2")
-        </p>
+
+    <div class="row">
+        <div class="col-12">
+            <h3>Lyrics Stats</h3>
+        </div>
     </div>
-    <div class="col-md-2">
-        <p>
-            <strong>Minimum</strong><br/>
-            @Model.Min.ToString("N0")
-        </p>
+
+    <div class="row">
+        <div class="col-md-2">
+            <p>
+                <strong>Total (all songs)</strong><br />
+                @Model.Total.ToString("N0")
+            </p>
+        </div>
+        <div class="col-md-2">
+            <p>
+                <strong>Average per song</strong><br />
+                @Model.Average.ToString("N2")
+            </p>
+        </div>
+        <div class="col-md-2">
+            <p>
+                <strong>Fewest words</strong><br />
+                @Model.Min.ToString("N0")
+            </p>
+        </div>
+        <div class="col-md-2">
+            <p>
+                <strong>Most words</strong><br />
+                @Model.Max.ToString("N0")
+            </p>
+        </div>
+        <div class="col-md-2">
+            <p>
+                <strong>Variance</strong><br />
+                @Model.Variance.ToString("N2")
+            </p>
+        </div>
+        <div class="col-md-2">
+            <p>
+                <strong>Std. Deviation</strong><br />
+                @Model.StandardDeviation.ToString("N2")
+            </p>
+        </div>
     </div>
-    <div class="col-md-2">
-        <p>
-            <strong>Maximum</strong><br/>
-            @Model.Max.ToString("N0")
-        </p>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-12">
+            <h3>Works</h3>
+        </div>
     </div>
-    <div class="col-md-2">
-        <p>
-            <strong>Variance</strong><br/>
-            @Model.Variance.ToString("N2")
-        </p>
-    </div>
-    <div class="col-md-2">
-        <p>
-            <strong>Std. Deviation</strong><br/>
-            @Model.StandardDeviation.ToString("N2")
-        </p>
-    </div>
-</div>
-<hr/>
-<div class="row">
-    <div class="col-md-4">
-        <h3>Works</h3>
+    <div class="row">
         @foreach (var workItem in Model.Works)
         {
             var work = workItem.Value;
 
-            <p>
-                <strong>@work.Title</strong>
-            </p>
-
-            @if (work.AverageDuration.HasValue && work.WordsPerSecond.HasValue)
-            {
+            <div class="col-md-4">
                 <p>
+                    <strong>@work.Title</strong>
+                </p>
+
+                @if (work.AverageDuration.HasValue && work.WordsPerSecond.HasValue)
+                {
+                    <p>
+                        <small>
+                            @work.NumberOfWords.ToString("N0") words over an average of
+                            @work.AverageDuration.Value.TotalMinutes.ToString("N0") minutes and
+                            @work.AverageDuration.Value.Seconds.ToString("N0") seconds<br />
+                            <strong>@work.WordsPerSecond.Value.ToString("N1") words per second</strong>
+                        </small>
+                    </p>
+                }
+
+                <p class="lyrics-preview">
                     <small>
-                        @work.NumberOfWords.ToString("N0") words over an average of
-                        @work.AverageDuration.Value.TotalMinutes.ToString("N0") minutes and
-                        @work.AverageDuration.Value.Seconds.ToString("N0") seconds<br/>
-                        <strong>@work.WordsPerSecond.Value.ToString("N1") words per second</strong>
+                        @Html.Raw(work.Lyrics.Substring(0, Math.Min(work.Lyrics.Length, 128)).Replace(Environment.NewLine, "<br />"))...
                     </small>
                 </p>
-            }
 
-            <p class="lyrics-preview">
-                <small>
-                    @Html.Raw(work.Lyrics.Substring(0, Math.Min(work.Lyrics.Length, 128)).Replace(Environment.NewLine, "<br />"))...
-                </small>
-            </p>
+                <p>
+                    &nbsp;
+                </p>
+            </div>
         }
     </div>
-</div>
+}

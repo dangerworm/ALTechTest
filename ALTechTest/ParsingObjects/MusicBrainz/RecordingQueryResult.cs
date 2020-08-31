@@ -1,4 +1,6 @@
-﻿namespace ALTechTest.Classes.MusicBrainz
+﻿using ALTechTest.ParsingObjects.MusicBrainz;
+
+namespace ALTechTest.Classes.MusicBrainz
 {
     public class RecordingQueryResult
     {

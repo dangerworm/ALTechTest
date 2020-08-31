@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ALTechTest.Classes.MusicBrainz;
+using ALTechTest.DataTransferObjects;
 using ALTechTest.Interfaces;
+using ALTechTest.ParsingObjects.MusicBrainz;
 using Newtonsoft.Json;
 
 namespace ALTechTest.ServiceCallers
@@ -12,7 +14,7 @@ namespace ALTechTest.ServiceCallers
     {
         private const int ArtistSearchScoreThreshold = 50;
 
-        public async Task<IEnumerable<Artist>> GetArtists(string query)
+        public async Task<IEnumerable<ArtistDto>> GetArtists(string query)
         {
             var parameters = new[] {FormatJson, $"query={query}"};
             var requestUri = $"{BaseAddress}{ArtistEntityString}?{string.Join('&', parameters)}";
@@ -22,10 +24,11 @@ namespace ALTechTest.ServiceCallers
             var apiResponseString = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<ArtistQueryResult>(apiResponseString);
 
-            return result.artists.Where(x => x.score > ArtistSearchScoreThreshold);
+            var matchingArtists = result.artists.Where(x => x.score > ArtistSearchScoreThreshold);
+            return matchingArtists.Select(x => new ArtistDto(x));
         }
 
-        public async Task<Artist> GetArtistById(Guid musicBrainzId)
+        public async Task<ArtistDto> GetArtistById(Guid musicBrainzId)
         {
             var requestUri = $"{BaseAddress}{ArtistEntityString}/{musicBrainzId}?{FormatJson}";
 
@@ -34,10 +37,10 @@ namespace ALTechTest.ServiceCallers
             var apiResponseString = await response.Content.ReadAsStringAsync();
             var artist = JsonConvert.DeserializeObject<Artist>(apiResponseString);
 
-            return artist;
+            return new ArtistDto(artist);
         }
 
-        public async Task<IEnumerable<Work>> GetWorksByArtistId(Guid artistMusicBrainzId)
+        public async Task<IEnumerable<WorkDto>> GetWorksByArtistId(Guid artistMusicBrainzId)
         {
             var parameters = new[]
             {
@@ -49,10 +52,10 @@ namespace ALTechTest.ServiceCallers
             var apiResponseString = await GetApiResponseString(requestUri);
             var result = JsonConvert.DeserializeObject<WorkQueryResult>(apiResponseString);
 
-            return result.works;
+            return result.works.Select(x => new WorkDto(x));
         }
 
-        public async Task<IEnumerable<Recording>> GetRecordingsByArtistId(Guid artistMusicBrainzId)
+        public async Task<IEnumerable<RecordingDto>> GetRecordingsByArtistId(Guid artistMusicBrainzId)
         {
             var parameters = new[]
             {
@@ -63,7 +66,7 @@ namespace ALTechTest.ServiceCallers
             var apiResponseString = await GetApiResponseString(requestUri);
             var result = JsonConvert.DeserializeObject<RecordingQueryResult>(apiResponseString);
 
-            return result.recordings;
+            return result.recordings.Select(x => new RecordingDto(x));
         }
 
         private async Task<string> GetApiResponseString(string requestUri)

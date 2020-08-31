@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using ALTechTest.Models;
+using ALTechTest.DataTransferObjects;
 
 namespace ALTechTest.Helpers
 {
-    public class ArtistComparer : IEqualityComparer<Artist>
+    public class ArtistComparer : IEqualityComparer<ArtistDto>
     {
-        public bool Equals(Artist leftArtist, Artist rightArtist)
+        public bool Equals(ArtistDto leftArtist, ArtistDto rightArtist)
         {
             Verify.NotNull(leftArtist, nameof(leftArtist));
             Verify.NotNull(rightArtist, nameof(rightArtist));
@@ -13,7 +13,7 @@ namespace ALTechTest.Helpers
             return leftArtist.Id.Equals(rightArtist.Id);
         }
 
-        public int GetHashCode(Artist value)
+        public int GetHashCode(ArtistDto value)
         {
             return value.GetHashCode();
         }
