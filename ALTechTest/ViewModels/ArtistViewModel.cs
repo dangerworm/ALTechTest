@@ -16,7 +16,7 @@ namespace ALTechTest.ViewModels
         {
             Artist = artist;
             Recordings = recordings.Select(x => new RecordingViewModel(x)).ToDictionary(x => x.Id);
-            Works = works.Select(x => new WorkViewModel(x)).ToDictionary(x => x.Id);
+            Works = works.Select(x => new WorkViewModel(x)).OrderBy(x => x.Title).ToDictionary(x => x.Id);
 
             RecordingWorks = recordings.Where(x => x.Relationships.Any())
                 .ToDictionary(x => x.Id, y => y.Relationships.FirstOrDefault()?.Work.Id);

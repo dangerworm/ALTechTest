@@ -1,9 +1,9 @@
-﻿using ALTechTest.DataTransferObjects;
+﻿using System.Threading.Tasks;
+using ALTechTest.DataTransferObjects;
 using ALTechTest.Interfaces;
 using ALTechTest.ServiceCallers;
 using Moq;
 using NUnit.Framework;
-using System.Threading.Tasks;
 
 namespace ALTechTestTests
 {
@@ -11,36 +11,28 @@ namespace ALTechTestTests
     {
         private Mock<IServiceCaller> MockServiceCaller { get; set; }
 
-        [SetUp]
-        public void Setup()
+        [Test]
+        public async Task GetLyrics_ArtistAndTitleProvided_ReturnLyricsDto()
         {
-            MockServiceCaller = new Mock<IServiceCaller>();
+            // Arrange
+            var lyricsOvCaller = GetLyricsOvhCaller();
+            var artist = new ArtistDto {Name = TestResources.ExampleArtistName};
+            var work = new WorkDto {Title = TestResources.ExampleSongTitle};
 
-            MockServiceCaller
-                .Setup(x => x.GetApiResponseString("https://api.lyrics.ovh/v1//Lego House"))
-                .Returns(Task.FromResult(TestResources.InvalidLyricsGetResponse));
+            // Act
+            var result = await lyricsOvCaller.GetLyrics(artist.Name, work.Title);
 
-            MockServiceCaller
-                .Setup(x => x.GetApiResponseString("https://api.lyrics.ovh/v1/Ed Sheeran/"))
-                .Returns(Task.FromResult(TestResources.InvalidLyricsGetResponse));
-
-            MockServiceCaller
-                .Setup(x => x.GetApiResponseString("https://api.lyrics.ovh/v1/Ed Sheeran/Lego House"))
-                .Returns(Task.FromResult(TestResources.ValidLyricsGetResponse));
+            // Assert
+            Assert.That(result != null && result.Lyrics.Length > 0);
         }
 
-        private LyricsOvhCaller GetLyricsOvhCaller()
-        {
-            return new LyricsOvhCaller(MockServiceCaller.Object);
-        }
-        
         [Test]
         public async Task GetLyrics_WhenNoArtistProvided_ReturnNull()
         {
             // Arrange
             var caller = GetLyricsOvhCaller();
-            var artist = new ArtistDto {Name = ""};
-            var work = new WorkDto {Title = "Lego House"};
+            var artist = new ArtistDto {Name = string.Empty};
+            var work = new WorkDto {Title = TestResources.ExampleSongTitle};
 
             // Act
             var result = await caller.GetLyrics(artist.Name, work.Title);
@@ -54,8 +46,8 @@ namespace ALTechTestTests
         {
             // Arrange
             var caller = GetLyricsOvhCaller();
-            var artist = new ArtistDto { Name = "Ed Sheeran" };
-            var work = new WorkDto { Title = "" };
+            var artist = new ArtistDto {Name = TestResources.ExampleArtistName};
+            var work = new WorkDto {Title = string.Empty};
 
             // Act
             var result = await caller.GetLyrics(artist.Name, work.Title);
@@ -64,19 +56,27 @@ namespace ALTechTestTests
             Assert.That(result == null);
         }
 
-        [Test]
-        public async Task GetLyrics_ArtistAndTitleProvided_ReturnLyricsDto()
+        private LyricsOvhCaller GetLyricsOvhCaller()
         {
-            // Arrange
-            var lyricsOvCaller = GetLyricsOvhCaller();
-            var artist = new ArtistDto { Name = "Ed Sheeran" };
-            var work = new WorkDto {Title = "Lego House"};
+            return new LyricsOvhCaller(MockServiceCaller.Object);
+        }
 
-            // Act
-            var result = await lyricsOvCaller.GetLyrics(artist.Name, work.Title);
+        [SetUp]
+        public void Setup()
+        {
+            MockServiceCaller = new Mock<IServiceCaller>();
 
-            // Assert
-            Assert.That(result != null && result.Lyrics.Length > 0);
+            MockServiceCaller
+                .Setup(x => x.GetApiResponseString(TestResources.InvalidLyricsRequestUriArtistNameOnly))
+                .Returns(Task.FromResult(TestResources.InvalidLyricsGetResponse));
+
+            MockServiceCaller
+                .Setup(x => x.GetApiResponseString(TestResources.InvalidLyricsRequestUriSongTitleOnly))
+                .Returns(Task.FromResult(TestResources.InvalidLyricsGetResponse));
+
+            MockServiceCaller
+                .Setup(x => x.GetApiResponseString(TestResources.ValidLyricsRequestUriArtistAndSongTitle))
+                .Returns(Task.FromResult(TestResources.ValidLyricsGetResponse));
         }
     }
 }

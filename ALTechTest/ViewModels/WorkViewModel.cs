@@ -14,7 +14,8 @@ namespace ALTechTest.ViewModels
             Type = work.Type;
             Disambiguation = work.Disambiguation;
 
-            Relationships = work.Relationships?.Select(x => new RelationshipViewModel(x)) ?? Enumerable.Empty<RelationshipViewModel>();
+            Relationships = work.Relationships?.Select(x => new RelationshipViewModel(x)) ??
+                            Enumerable.Empty<RelationshipViewModel>();
         }
 
         public TimeSpan? AverageDuration { get; set; }

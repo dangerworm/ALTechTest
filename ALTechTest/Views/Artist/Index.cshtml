@@ -48,7 +48,7 @@ else
         <div class="col-12">
             <div class="jumbotron">
                 <h1 class="text-center" style="font-size: @(fontSize)pt">
-                    @Model.Average.ToString("N0") words per song<br />
+                    @Model.Average.ToString("N0") words per song<br/>
                     @if (Model.WordsPerSecond.HasValue)
                     {
                         <text>@Model.WordsPerSecond.Value.ToString("N1") words per second</text>
@@ -67,43 +67,43 @@ else
     <div class="row">
         <div class="col-md-2">
             <p>
-                <strong>Total (all songs)</strong><br />
+                <strong>Total (all songs)</strong><br/>
                 @Model.Total.ToString("N0")
             </p>
         </div>
         <div class="col-md-2">
             <p>
-                <strong>Average per song</strong><br />
+                <strong>Average per song</strong><br/>
                 @Model.Average.ToString("N2")
             </p>
         </div>
         <div class="col-md-2">
             <p>
-                <strong>Fewest words</strong><br />
+                <strong>Fewest words</strong><br/>
                 @Model.Min.ToString("N0")
             </p>
         </div>
         <div class="col-md-2">
             <p>
-                <strong>Most words</strong><br />
+                <strong>Most words</strong><br/>
                 @Model.Max.ToString("N0")
             </p>
         </div>
         <div class="col-md-2">
             <p>
-                <strong>Variance</strong><br />
+                <strong>Variance</strong><br/>
                 @Model.Variance.ToString("N2")
             </p>
         </div>
         <div class="col-md-2">
             <p>
-                <strong>Std. Deviation</strong><br />
+                <strong>Std. Deviation</strong><br/>
                 @Model.StandardDeviation.ToString("N2")
             </p>
         </div>
     </div>
 
-    <hr />
+    <hr/>
 
     <div class="row">
         <div class="col-12">
@@ -126,7 +126,7 @@ else
                         <small>
                             @work.NumberOfWords.ToString("N0") words over an average of
                             @work.AverageDuration.Value.TotalMinutes.ToString("N0") minutes and
-                            @work.AverageDuration.Value.Seconds.ToString("N0") seconds<br />
+                            @work.AverageDuration.Value.Seconds.ToString("N0") seconds<br/>
                             <strong>@work.WordsPerSecond.Value.ToString("N1") words per second</strong>
                         </small>
                     </p>

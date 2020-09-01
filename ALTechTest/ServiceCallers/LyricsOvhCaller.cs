@@ -1,10 +1,9 @@
-﻿using ALTechTest.DataTransferObjects;
+﻿using System.Threading.Tasks;
+using ALTechTest.DataTransferObjects;
+using ALTechTest.Helpers;
 using ALTechTest.Interfaces;
 using ALTechTest.ParsingObjects.LyricsOvh;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
-using System.Web;
-using ALTechTest.Helpers;
 
 namespace ALTechTest.ServiceCallers
 {
@@ -17,7 +16,7 @@ namespace ALTechTest.ServiceCallers
         public LyricsOvhCaller(IServiceCaller serviceCaller)
         {
             Verify.NotNull(serviceCaller, nameof(serviceCaller));
-            
+
             _serviceCaller = serviceCaller;
         }
 

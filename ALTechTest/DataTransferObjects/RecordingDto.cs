@@ -10,7 +10,7 @@ namespace ALTechTest.DataTransferObjects
         public RecordingDto()
         {
         }
-        
+
         public RecordingDto(Recording recording)
         {
             Id = recording.id;

@@ -1,14 +1,14 @@
-﻿using ALTechTest.Classes.MusicBrainz;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using ALTechTest.Classes.MusicBrainz;
 using ALTechTest.DataTransferObjects;
 using ALTechTest.Helpers;
 using ALTechTest.Interfaces;
 using ALTechTest.ParsingObjects.MusicBrainz;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace ALTechTest.ServiceCallers
 {
@@ -26,7 +26,7 @@ namespace ALTechTest.ServiceCallers
         private const string WorkEntityString = "work";
 
         private const int ArtistSearchScoreThreshold = 50;
-        
+
         private readonly IServiceCaller _serviceCaller;
 
         public MusicBrainzCaller(IServiceCaller serviceCaller)
@@ -42,7 +42,7 @@ namespace ALTechTest.ServiceCallers
             {
                 FormatJson, $"query={HttpUtility.UrlEncode(query)}"
             };
-            
+
             try
             {
                 var requestUri = $"{BaseAddress}{ArtistEntityString}?{string.Join('&', parameters)}";
